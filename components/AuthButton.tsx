@@ -14,7 +14,7 @@ export default function AuthButton() {
                 className="px-4 py-2 border border-cyan-500 text-cyan-500 font-mono text-sm hover:bg-cyan-500 hover:text-black transition-colors rounded shadow-[0_0_10px_rgba(0,255,255,0.2)]"
             >
                 {/* Google Icon SVG */}
-                <span className="mr-2">G</span>
+
                 {language === 'zh' ? "登入 / 註冊" : "LOGIN / REGISTER"}
             </button>
         );

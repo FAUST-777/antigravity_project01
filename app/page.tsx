@@ -47,13 +47,13 @@ export default function Home() {
                 ></div>
 
                 {/* Header - FIXED */}
-                <header className="fixed top-0 left-0 right-0 z-50 w-full flex justify-between items-center py-4 px-6 border-b border-gray-800 bg-black/90 backdrop-blur-md shadow-lg shadow-cyan-900/10 transition-all duration-300">
+                <header className="fixed top-0 left-0 right-0 z-50 w-full flex flex-col md:flex-row justify-between items-center py-2 md:py-4 px-4 md:px-6 border-b border-gray-800 bg-black/95 backdrop-blur-md shadow-lg shadow-cyan-900/10 transition-all duration-300 gap-2 md:gap-0">
                     <div className="flex items-center gap-3 cursor-pointer" onClick={scrollToTop}>
                         <div className="relative">
                             <span className="absolute inset-0 w-full h-full bg-pink-500 blur-lg opacity-50 rounded-full animate-pulse"></span>
                             <span className="relative text-2xl">🐱</span>
                         </div>
-                        <h1 className="text-2xl font-black italic tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-white to-pink-500 drop-shadow-[0_0_10px_rgba(0,255,255,0.5)] hidden sm:block">
+                        <h1 className="text-xl md:text-2xl font-black italic tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-white to-pink-500 drop-shadow-[0_0_10px_rgba(0,255,255,0.5)] block">
                             {t("header_title")}
                         </h1>
                     </div>
@@ -84,7 +84,7 @@ export default function Home() {
                         */}
                     </nav>
 
-                    <div className="flex items-center gap-4 pl-4 border-l border-gray-800">
+                    <div className="flex items-center gap-4 pl-0 md:pl-4 border-t border-gray-800 md:border-t-0 md:border-l border-gray-800 w-full md:w-auto justify-center md:justify-end py-2 md:py-0 order-2 md:order-none">
                         <AuthButton />
                         {/* Language Switcher */}
                         <div className="flex border border-gray-700 rounded-lg overflow-hidden">
@@ -102,16 +102,19 @@ export default function Home() {
                             </button>
                         </div>
                     </div>
+
+                    {/* Mobile Nav Links - Layer 3 */}
+                    <div className="md:hidden flex justify-around items-center w-full py-2 border-t border-gray-800 order-3">
+                        <button onClick={scrollToTop} className="font-mono text-cyan-400 font-bold tracking-widest text-sm hover:text-cyan-300 shadow-cyan-500/20">{t("nav_home")}</button>
+                        <button onClick={() => setShowAbout(true)} className="font-mono text-purple-400 font-bold tracking-widest text-sm hover:text-purple-300">{t("nav_about")}</button>
+                        <button onClick={() => setShowDonate(true)} className="font-mono text-pink-400 font-bold tracking-widest text-sm hover:text-pink-300">{t("nav_donate")}</button>
+                    </div>
                 </header>
 
                 {/* Mobile Menu Bar (Bottom fixed for easier access or just keep top? User asked for TOP fixed)
                     Let's add a small mobile nav row below the main header if on mobile screens, or just rely on the main header flex wrap
                 */}
-                <div className="md:hidden fixed top-[60px] left-0 right-0 z-40 bg-black/95 border-b border-gray-800 flex justify-around items-center h-16 backdrop-blur-md">
-                    <button onClick={scrollToTop} className="font-mono text-cyan-400 font-bold tracking-widest p-4">{t("nav_home")}</button>
-                    <button onClick={() => setShowAbout(true)} className="font-mono text-purple-400 font-bold tracking-widest p-4">{t("nav_about")}</button>
-                    <button onClick={() => setShowDonate(true)} className="font-mono text-pink-400 font-bold tracking-widest p-4">{t("nav_donate")}</button>
-                </div>
+                {/* Header End */}
 
                 {/* Hero Text */}
                 <section className="relative z-10 max-w-7xl mx-auto pt-16 md:pt-16 pb-8 px-4 text-center mt-10 md:mt-0">
