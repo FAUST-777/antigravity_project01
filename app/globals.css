@@ -15,8 +15,6 @@ body {
   background: var(--background);
   font-family: 'Courier New', Courier, monospace;
   /* Cyberpunk font vibe */
-  overflow: hidden;
-  /* Prevent scrolling for map app */
 }
 
 /* Cyberpunk Scrollbar */

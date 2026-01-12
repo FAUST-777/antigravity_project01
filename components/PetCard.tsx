@@ -1,76 +1,56 @@
-import { Pet } from "@/data/mockPets";
-import { motion } from "framer-motion";
-import { Battery, Zap, DollarSign } from "lucide-react";
+"use client";
 
-interface PetCardProps {
+import { motion } from "framer-motion";
+import { Pet } from "@/data/mockPets";
+import { useLanguage } from "@/contexts/LanguageContext";
+
+interface Props {
     pet: Pet;
     onRent: (pet: Pet) => void;
 }
 
-export default function PetCard({ pet, onRent }: PetCardProps) {
+export default function PetCard({ pet, onRent }: Props) {
+    const { t } = useLanguage();
+
     return (
         <motion.div
-            whileHover={{ scale: 1.02, boxShadow: "0 0 20px rgba(0, 255, 255, 0.4)" }}
-            className="group relative bg-gray-900 border border-cyan-800 rounded-xl overflow-hidden hover:border-cyan-400 transition-colors"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            whileHover={{ scale: 1.02 }}
+            className="bg-gray-900 border border-gray-800 rounded-xl overflow-hidden group hover:border-pink-500 transition-colors cursor-pointer"
+            onClick={() => onRent(pet)}
         >
-            {/* Image Container */}
-            <div className="relative h-64 w-full overflow-hidden">
-                <img
-                    src={pet.image}
-                    alt={pet.name}
-                    className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-110"
-                />
-                {/* Overlay Gradient */}
-                <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-transparent to-transparent opacity-80" />
-
-                {/* Price Tag */}
-                <div className="absolute top-3 right-3 bg-black/70 backdrop-blur border border-pink-500 text-pink-500 px-3 py-1 rounded-full font-mono text-sm flex items-center shadow-[0_0_10px_#ff00ff]">
-                    <DollarSign size={14} className="mr-1" />
-                    {pet.price}/HR
+            <div className="relative h-64 overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent z-10"></div>
+                <img src={pet.image} alt={pet.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                <div className="absolute top-2 right-2 z-20 bg-black/60 backdrop-blur px-2 py-1 rounded text-xs font-mono text-cyan-400 border border-cyan-800">
+                    {pet.type.toUpperCase()}
                 </div>
             </div>
 
-            {/* Info Body */}
-            <div className="p-5 relative z-10">
+            <div className="p-4 relative z-20">
                 <div className="flex justify-between items-start mb-2">
-                    <h3 className="text-xl font-bold text-cyan-400 font-mono tracking-wider">{pet.name}</h3>
-                    <span className="text-xs text-gray-500 border border-gray-700 px-2 py-0.5 rounded uppercase">
-                        {pet.type}
-                    </span>
+                    <h3 className="text-xl font-bold italic text-white group-hover:text-pink-500 transition-colors">{pet.name}</h3>
+                    <span className="text-lg font-mono text-cyan-400">{pet.price}</span>
                 </div>
-
-                <p className="text-gray-400 text-sm mb-4 min-h-[40px] line-clamp-2">
-                    {pet.bio}
-                </p>
-
-                {/* Stats Grid */}
-                <div className="grid grid-cols-2 gap-3 mb-4 text-xs font-mono text-gray-300">
-                    <div className="flex items-center gap-2 bg-gray-800 p-2 rounded border border-gray-700">
-                        <Battery size={14} className={pet.battery > 50 ? "text-green-400" : "text-red-400"} />
-                        <span>PWR: {pet.battery}%</span>
-                    </div>
-                    <div className="flex items-center gap-2 bg-gray-800 p-2 rounded border border-gray-700">
-                        <Zap size={14} className="text-yellow-400" />
-                        <span>SYNC: READY</span>
-                    </div>
-                </div>
-
-                {/* Tags */}
+                <p className="text-xs text-gray-500 mb-4 font-mono">{t("credits_hr")}</p>
                 <div className="flex flex-wrap gap-2 mb-4">
                     {pet.tags.map(tag => (
-                        <span key={tag} className="text-[10px] px-2 py-1 bg-cyan-900/30 text-cyan-300 rounded border border-cyan-900/50">
-                            #{tag}
+                        <span key={tag} className="text-[10px] bg-gray-800 text-gray-300 px-2 py-1 rounded border border-gray-700">
+                            #{tag.toUpperCase()}
                         </span>
                     ))}
                 </div>
-
-                {/* Rent Button */}
-                <button
-                    onClick={() => onRent(pet)}
-                    className="w-full py-3 bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-500 hover:to-purple-500 text-white font-bold font-mono rounded tracking-widest shadow-[0_0_15px_rgba(236,72,153,0.4)] active:scale-95 transition-all"
-                >
-                    JACK IN [RENT]
-                </button>
+                <div className="flex justify-between items-center mt-4 pt-4 border-t border-gray-800">
+                    <div className="flex items-center gap-2">
+                        <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
+                        <span className="text-xs text-gray-400">{t("available")}</span>
+                    </div>
+                    <button className="text-sm font-bold text-pink-500 hover:text-white transition-colors">
+                        {t("book_now")} →
+                    </button>
+                </div>
             </div>
         </motion.div>
     );
