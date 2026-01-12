@@ -4,6 +4,8 @@ import { useState, useEffect } from "react";
 import { MOCK_PETS, Pet } from "@/data/mockPets";
 import PetCard from "@/components/PetCard";
 import BookingModal from "@/components/BookingModal";
+import AboutModal from "@/components/AboutModal";
+import DonateModal from "@/components/DonateModal";
 import { AnimatePresence } from "framer-motion";
 import { useLanguage } from "@/contexts/LanguageContext";
 
@@ -11,6 +13,8 @@ export default function Home() {
     const { t, language, setLanguage } = useLanguage();
     const [time, setTime] = useState<string>("");
     const [selectedPet, setSelectedPet] = useState<Pet | null>(null);
+    const [showAbout, setShowAbout] = useState(false);
+    const [showDonate, setShowDonate] = useState(false);
 
     useEffect(() => {
         setTime(new Date().toLocaleTimeString());
@@ -22,9 +26,13 @@ export default function Home() {
         setSelectedPet(pet);
     };
 
+    const scrollToTop = () => {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    };
+
     return (
         <>
-            <main className="min-h-screen bg-black text-white relative overflow-x-hidden pb-10">
+            <main className="min-h-screen bg-black text-white relative overflow-x-hidden pb-10 pt-20">
 
                 {/* Cyberpunk Dynamic Background */}
                 <div className="fixed inset-0 z-0 opacity-20 bg-[url('https://grainy-gradients.vercel.app/noise.svg')]"></div>
@@ -37,46 +45,74 @@ export default function Home() {
                     }}
                 ></div>
 
-                {/* Header */}
-                <header className="sticky top-0 z-50 w-full flex justify-between items-center py-4 px-6 border-b border-gray-800 bg-black/90 backdrop-blur-md">
-                    <div className="flex items-center gap-3">
+                {/* Header - FIXED */}
+                <header className="fixed top-0 left-0 right-0 z-50 w-full flex justify-between items-center py-4 px-6 border-b border-gray-800 bg-black/90 backdrop-blur-md shadow-lg shadow-cyan-900/10 transition-all duration-300">
+                    <div className="flex items-center gap-3 cursor-pointer" onClick={scrollToTop}>
                         <div className="relative">
                             <span className="absolute inset-0 w-full h-full bg-pink-500 blur-lg opacity-50 rounded-full animate-pulse"></span>
                             <span className="relative text-2xl">🐱</span>
                         </div>
-                        <h1 className="text-2xl font-black italic tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-white to-pink-500 drop-shadow-[0_0_10px_rgba(0,255,255,0.5)]">
+                        <h1 className="text-2xl font-black italic tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-white to-pink-500 drop-shadow-[0_0_10px_rgba(0,255,255,0.5)] hidden sm:block">
                             {t("header_title")}
                         </h1>
                     </div>
 
-                    <div className="flex items-center gap-6">
+                    {/* Nav Links */}
+                    <nav className="flex items-center gap-6">
+                        <ul className="flex items-center gap-6 font-mono font-bold text-sm tracking-widest hidden md:flex">
+                            <li>
+                                <button onClick={scrollToTop} className="text-gray-400 hover:text-cyan-400 hover:drop-shadow-[0_0_5px_rgba(0,255,255,0.8)] transition-all">
+                                    {t("nav_home")}
+                                </button>
+                            </li>
+                            <li>
+                                <button onClick={() => setShowAbout(true)} className="text-gray-400 hover:text-purple-400 hover:drop-shadow-[0_0_5px_rgba(168,85,247,0.8)] transition-all">
+                                    {t("nav_about")}
+                                </button>
+                            </li>
+                            <li>
+                                <button onClick={() => setShowDonate(true)} className="text-gray-400 hover:text-pink-400 hover:drop-shadow-[0_0_5px_rgba(236,72,153,0.8)] transition-all">
+                                    {t("nav_donate")}
+                                </button>
+                            </li>
+                        </ul>
+
+                        {/* Mobile Nav Toggle (Simplified for now - just using buttons in top bar for critical actions if space permits, or rely on hamburger later. For this request, I'll keep the main nav visible or add basic responsive hiding) */}
+                        {/* Actually, user requested "head bar to include these", I'll make sure they fit or stack properly. 
+                            If mobile, space is tight. I'll put text buttons.
+                        */}
+                    </nav>
+
+                    <div className="flex items-center gap-4 pl-4 border-l border-gray-800">
                         {/* Language Switcher */}
                         <div className="flex border border-gray-700 rounded-lg overflow-hidden">
                             <button
                                 onClick={() => setLanguage("zh")}
-                                className={`px-3 py-1 text-xs font-bold transition-colors ${language === "zh" ? "bg-cyan-600 text-black" : "bg-black text-gray-500 hover:text-white"}`}
+                                className={`px-2 py-1 text-xs font-bold transition-colors ${language === "zh" ? "bg-cyan-600 text-black" : "bg-black text-gray-500 hover:text-white"}`}
                             >
-                                中文
+                                中
                             </button>
                             <button
                                 onClick={() => setLanguage("en")}
-                                className={`px-3 py-1 text-xs font-bold transition-colors ${language === "en" ? "bg-cyan-600 text-black" : "bg-black text-gray-500 hover:text-white"}`}
+                                className={`px-2 py-1 text-xs font-bold transition-colors ${language === "en" ? "bg-cyan-600 text-black" : "bg-black text-gray-500 hover:text-white"}`}
                             >
                                 EN
                             </button>
                         </div>
-
-                        <div className="font-mono text-cyan-500 text-sm flex items-center gap-2 hidden md:flex">
-                            <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
-                            <span>{t("net_online")}</span>
-                            <span className="text-gray-600">|</span>
-                            <span>{time}</span>
-                        </div>
                     </div>
                 </header>
 
+                {/* Mobile Menu Bar (Bottom fixed for easier access or just keep top? User asked for TOP fixed)
+                    Let's add a small mobile nav row below the main header if on mobile screens, or just rely on the main header flex wrap
+                */}
+                <div className="md:hidden fixed top-[60px] left-0 right-0 z-40 bg-black/95 border-b border-gray-800 flex justify-around py-2 px-2 backdrop-blur-md">
+                    <button onClick={scrollToTop} className="text-xs font-mono text-cyan-400">{t("nav_home")}</button>
+                    <button onClick={() => setShowAbout(true)} className="text-xs font-mono text-purple-400">{t("nav_about")}</button>
+                    <button onClick={() => setShowDonate(true)} className="text-xs font-mono text-pink-400">{t("nav_donate")}</button>
+                </div>
+
                 {/* Hero Text */}
-                <section className="relative z-10 max-w-7xl mx-auto pt-16 pb-8 px-4 text-center">
+                <section className="relative z-10 max-w-7xl mx-auto pt-16 md:pt-16 pb-8 px-4 text-center mt-10 md:mt-0">
                     <h2 className="text-5xl md:text-7xl font-bold mb-4 text-white drop-shadow-[0_0_15px_rgba(255,255,255,0.3)]">
                         {t("hero_title")}
                     </h2>
@@ -95,13 +131,19 @@ export default function Home() {
 
             </main>
 
-            {/* Booking Modal - Moved outside main for stacking context safety */}
+            {/* Modals */}
             <AnimatePresence>
                 {selectedPet && (
                     <BookingModal
                         pet={selectedPet}
                         onClose={() => setSelectedPet(null)}
                     />
+                )}
+                {showAbout && (
+                    <AboutModal onClose={() => setShowAbout(false)} />
+                )}
+                {showDonate && (
+                    <DonateModal onClose={() => setShowDonate(false)} />
                 )}
             </AnimatePresence>
         </>
