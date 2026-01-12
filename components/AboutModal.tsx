@@ -38,7 +38,7 @@ export default function AboutModal({ onClose }: AboutModalProps) {
                         className="w-full md:w-1/2 relative h-64 md:h-auto border-b md:border-b-0 md:border-r border-gray-700 cursor-pointer group"
                         onClick={() => setIsDogeRevealed(!isDogeRevealed)}
                     >
-                        <div className="absolute inset-0 bg-gradient-to-t from-gray-900 to-transparent z-10 bottom-0 h-1/3 pointer-events-none"></div>
+                        <div className="absolute left-0 right-0 bottom-0 bg-gradient-to-t from-gray-900 to-transparent z-10 h-1/3 pointer-events-none"></div>
                         <Image
                             src={isDogeRevealed ? "/cyber_doge.png" : "/bondrewd_avatar.png"}
                             alt="Creator Avatar"
