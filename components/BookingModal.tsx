@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { createPortal } from "react-dom";
 import { motion } from "framer-motion";
 import { Pet } from "@/data/mockPets";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -20,7 +21,10 @@ export default function BookingModal({ pet, onClose }: BookingModalProps) {
     const [loading, setLoading] = useState(false);
     const [bookings, setBookings] = useState<Booking[]>([]);
 
+    const [mounted, setMounted] = useState(false);
+
     useEffect(() => {
+        setMounted(true);
         // Subscribe to real-time bookings for this pet
         const unsubscribe = BookingService.subscribeToBookings(pet.id, (data) => {
             setBookings(data);
@@ -49,7 +53,12 @@ export default function BookingModal({ pet, onClose }: BookingModalProps) {
         }
     };
 
-    return (
+    if (!mounted) return null;
+
+    // Use React Portal to render modal at the document body level
+    // This bypasses any z-index or overflow issues from parent containers
+
+    return createPortal(
         <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
             <motion.div
                 initial={{ scale: 0.9, opacity: 0 }}
@@ -167,6 +176,7 @@ export default function BookingModal({ pet, onClose }: BookingModalProps) {
                     </div>
                 </div>
             </motion.div>
-        </div>
+        </div>,
+        document.body
     );
 }
