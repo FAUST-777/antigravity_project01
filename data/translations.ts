@@ -103,7 +103,7 @@ export const translations = {
     },
     about_title: {
         en: "ABOUT CREATOR DOGE_WILLIE",
-        zh: "關於創作者Doge_Willie"
+        zh: "作者Willie_Doge"
     },
     about_text: {
         en: "I created this service because I love cats and dogs but hate the hassle of walking them or cleaning up. I figured others might feel the same—wanting the serotonin boost of a pet without the commitment. So, I open-sourced my own pets for you to rent and enjoy.",
