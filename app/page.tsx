@@ -107,10 +107,10 @@ export default function Home() {
                 {/* Mobile Menu Bar (Bottom fixed for easier access or just keep top? User asked for TOP fixed)
                     Let's add a small mobile nav row below the main header if on mobile screens, or just rely on the main header flex wrap
                 */}
-                <div className="md:hidden fixed top-[60px] left-0 right-0 z-40 bg-black/95 border-b border-gray-800 flex justify-around py-2 px-2 backdrop-blur-md">
-                    <button onClick={scrollToTop} className="text-xs font-mono text-cyan-400">{t("nav_home")}</button>
-                    <button onClick={() => setShowAbout(true)} className="text-xs font-mono text-purple-400">{t("nav_about")}</button>
-                    <button onClick={() => setShowDonate(true)} className="text-xs font-mono text-pink-400">{t("nav_donate")}</button>
+                <div className="md:hidden fixed top-[60px] left-0 right-0 z-40 bg-black/95 border-b border-gray-800 flex justify-around items-center h-16 backdrop-blur-md">
+                    <button onClick={scrollToTop} className="font-mono text-cyan-400 font-bold tracking-widest p-4">{t("nav_home")}</button>
+                    <button onClick={() => setShowAbout(true)} className="font-mono text-purple-400 font-bold tracking-widest p-4">{t("nav_about")}</button>
+                    <button onClick={() => setShowDonate(true)} className="font-mono text-pink-400 font-bold tracking-widest p-4">{t("nav_donate")}</button>
                 </div>
 
                 {/* Hero Text */}

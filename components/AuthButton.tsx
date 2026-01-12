@@ -22,7 +22,7 @@ export default function AuthButton() {
 
     return (
         <div className="flex items-center gap-3">
-            <div className="hidden md:block text-right">
+            <div className="text-right">
                 <p className="text-xs text-gray-400 font-mono">OPERATOR</p>
                 <p className="text-sm text-cyan-400 font-bold font-mono truncate max-w-[100px]">{user.displayName}</p>
             </div>
