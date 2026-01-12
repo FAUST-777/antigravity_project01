@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { useLanguage } from "@/contexts/LanguageContext";
 import Image from "next/image";
+import { useState } from "react";
 
 interface AboutModalProps {
     onClose: () => void;
@@ -10,6 +11,7 @@ interface AboutModalProps {
 
 export default function AboutModal({ onClose }: AboutModalProps) {
     const { t } = useLanguage();
+    const [isDogeRevealed, setIsDogeRevealed] = useState(false);
 
     return (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
@@ -32,14 +34,21 @@ export default function AboutModal({ onClose }: AboutModalProps) {
 
                 <div className="flex flex-col md:flex-row">
                     {/* Image Section */}
-                    <div className="w-full md:w-1/2 relative h-64 md:h-auto border-b md:border-b-0 md:border-r border-gray-700">
-                        <div className="absolute inset-0 bg-gradient-to-t from-gray-900 to-transparent z-10 bottom-0 h-1/3"></div>
+                    <div
+                        className="w-full md:w-1/2 relative h-64 md:h-auto border-b md:border-b-0 md:border-r border-gray-700 cursor-pointer group"
+                        onClick={() => setIsDogeRevealed(!isDogeRevealed)}
+                    >
+                        <div className="absolute inset-0 bg-gradient-to-t from-gray-900 to-transparent z-10 bottom-0 h-1/3 pointer-events-none"></div>
                         <Image
-                            src="/bondrewd_avatar.png"
+                            src={isDogeRevealed ? "/cyber_doge.png" : "/bondrewd_avatar.png"}
                             alt="Creator Avatar"
                             fill
-                            className="object-cover"
+                            className="object-cover transition-opacity duration-300"
                         />
+                        {/* Hover Hint */}
+                        <div className="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity z-20">
+                            <span className="text-cyan-400 font-mono text-xs tracking-widest">[CLICK_TO_HACK]</span>
+                        </div>
                     </div>
 
                     {/* Content Section */}
