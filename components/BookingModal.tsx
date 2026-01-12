@@ -50,7 +50,7 @@ export default function BookingModal({ pet, onClose }: BookingModalProps) {
     };
 
     return (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
+        <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
             <motion.div
                 initial={{ scale: 0.9, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
@@ -59,7 +59,7 @@ export default function BookingModal({ pet, onClose }: BookingModalProps) {
             >
                 <button
                     onClick={onClose}
-                    className="absolute top-4 right-4 text-gray-500 hover:text-white z-10"
+                    className="absolute top-4 right-4 text-gray-500 hover:text-white z-10 p-2"
                 >
                     ✕
                 </button>
@@ -75,27 +75,27 @@ export default function BookingModal({ pet, onClose }: BookingModalProps) {
                         </div>
                     </div>
 
-                    <div className="space-y-3">
+                    <div className="space-y-4">
                         <div>
                             <label className="text-gray-400 text-sm block mb-1">{t("booking_form_name")}</label>
                             <input
                                 type="text"
                                 value={name}
                                 onChange={(e) => setName(e.target.value)}
-                                className="w-full bg-black border border-gray-700 p-3 rounded text-white focus:border-cyan-500 outline-none"
+                                className="w-full bg-black border border-gray-700 p-3 rounded text-white focus:border-cyan-500 outline-none h-[50px]"
                             />
                         </div>
-                        <div className="flex gap-4">
+                        <div className="flex flex-col sm:flex-row gap-4">
                             <div className="flex-1">
                                 <label className="text-gray-400 text-sm block mb-1">{t("booking_form_date")}</label>
                                 <input
                                     type="date"
                                     value={date}
                                     onChange={(e) => setDate(e.target.value)}
-                                    className="w-full bg-black border border-gray-700 p-3 rounded text-white focus:border-cyan-500 outline-none"
+                                    className="w-full bg-black border border-gray-700 p-3 rounded text-white focus:border-cyan-500 outline-none h-[50px]"
                                 />
                             </div>
-                            <div className="w-1/3">
+                            <div className="w-full sm:w-1/3">
                                 <label className="text-gray-400 text-sm block mb-1">{t("booking_form_time")}</label>
                                 <select
                                     value={time}
@@ -114,7 +114,7 @@ export default function BookingModal({ pet, onClose }: BookingModalProps) {
                                 value={note}
                                 maxLength={50}
                                 onChange={(e) => setNote(e.target.value)}
-                                className="w-full bg-black border border-gray-700 p-3 rounded text-white focus:border-cyan-500 outline-none h-20 resize-none"
+                                className="w-full bg-black border border-gray-700 p-3 rounded text-white focus:border-cyan-500 outline-none h-24 resize-none"
                             />
                         </div>
                     </div>
@@ -122,23 +122,23 @@ export default function BookingModal({ pet, onClose }: BookingModalProps) {
                     <button
                         onClick={handleSubmit}
                         disabled={loading}
-                        className="w-full mt-2 py-4 bg-cyan-600 hover:bg-cyan-500 disabled:bg-gray-700 text-black font-bold text-lg rounded transition-colors shadow-[0_0_20px_rgba(0,255,255,0.4)]"
+                        className="w-full mt-4 py-4 bg-cyan-600 hover:bg-cyan-500 disabled:bg-gray-700 text-black font-bold text-lg rounded transition-colors shadow-[0_0_20px_rgba(0,255,255,0.4)] active:scale-95"
                     >
                         {loading ? "PROCESSING..." : t("booking_confirm_btn")}
                     </button>
                 </div>
 
                 {/* Right: Schedule List */}
-                <div className="flex-1 border-t md:border-t-0 md:border-l border-gray-800 pt-4 md:pt-0 md:pl-6">
+                <div className="flex-1 border-t md:border-t-0 md:border-l border-gray-800 pt-6 md:pt-0 md:pl-6">
                     <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
                         <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
                         {t("current_schedule")}
                     </h3>
 
-                    <div className="overflow-x-auto">
+                    <div className="overflow-x-auto h-[300px] overflow-y-auto pr-2 custom-scrollbar">
                         <table className="w-full text-left font-mono text-sm">
-                            <thead>
-                                <tr className="text-gray-500 border-b border-gray-800">
+                            <thead className="sticky top-0 bg-gray-900 border-b border-gray-800 z-10 shadow-sm">
+                                <tr className="text-gray-500">
                                     <th className="pb-2 pr-2">{t("table_date")}</th>
                                     <th className="pb-2 pr-2">{t("table_time")}</th>
                                     <th className="pb-2 pr-2">{t("table_user")}</th>
@@ -155,10 +155,10 @@ export default function BookingModal({ pet, onClose }: BookingModalProps) {
                                 ) : (
                                     bookings.map((b) => (
                                         <tr key={b.id} className="text-gray-300">
-                                            <td className="py-2 pr-2 text-pink-500">{b.date}</td>
+                                            <td className="py-2 pr-2 text-pink-500 whitespace-nowrap">{b.date}</td>
                                             <td className="py-2 pr-2">{b.time}:00</td>
-                                            <td className="py-2 pr-2 text-cyan-400 font-bold">{b.userName}</td>
-                                            <td className="py-2 text-gray-500 break-words max-w-[100px]">{b.note}</td>
+                                            <td className="py-2 pr-2 text-cyan-400 font-bold max-w-[80px] truncate">{b.userName}</td>
+                                            <td className="py-2 text-gray-500 break-words min-w-[100px]">{b.note}</td>
                                         </tr>
                                     ))
                                 )}
