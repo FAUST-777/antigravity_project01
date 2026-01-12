@@ -25,7 +25,7 @@ export default function AboutModal({ onClose }: AboutModalProps) {
                 {/* Close Button */}
                 <button
                     onClick={onClose}
-                    className="absolute top-4 right-4 text-cyan-500 hover:text-white z-10"
+                    className="absolute top-4 right-4 text-cyan-500 hover:text-white z-[60] bg-black/50 rounded-full p-2 backdrop-blur-sm"
                 >
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />

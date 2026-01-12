@@ -38,8 +38,8 @@ export const translations = {
         zh: "立即租賃"
     },
     booking_modal_title: {
-        en: "CONFIRM LINKAGE",
-        zh: "確認連結"
+        en: "CONFIRM BOOKING",
+        zh: "預約摸貓狗"
     },
     booking_form_name: {
         en: "Your Name",
@@ -58,8 +58,8 @@ export const translations = {
         zh: "備註 (最多50字)"
     },
     booking_confirm_btn: {
-        en: "INITIATE TRANSFER",
-        zh: "啟動傳輸"
+        en: "START RESERVATION",
+        zh: "啟動預約"
     },
     booking_success: {
         en: "LINKAGE ESTABLISHED!",
@@ -102,8 +102,8 @@ export const translations = {
         zh: "斗內"
     },
     about_title: {
-        en: "ABOUT THE CREATOR",
-        zh: "關於創作者"
+        en: "ABOUT CREATOR DOGE_WILLIE",
+        zh: "關於創作者Doge_Willie"
     },
     about_text: {
         en: "I created this service because I love cats and dogs but hate the hassle of walking them or cleaning up. I figured others might feel the same—wanting the serotonin boost of a pet without the commitment. So, I open-sourced my own pets for you to rent and enjoy.",

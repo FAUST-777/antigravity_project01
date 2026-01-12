@@ -6,6 +6,7 @@ import PetCard from "@/components/PetCard";
 import BookingModal from "@/components/BookingModal";
 import AboutModal from "@/components/AboutModal";
 import DonateModal from "@/components/DonateModal";
+import AuthButton from "@/components/AuthButton";
 import { AnimatePresence } from "framer-motion";
 import { useLanguage } from "@/contexts/LanguageContext";
 
@@ -84,6 +85,7 @@ export default function Home() {
                     </nav>
 
                     <div className="flex items-center gap-4 pl-4 border-l border-gray-800">
+                        <AuthButton />
                         {/* Language Switcher */}
                         <div className="flex border border-gray-700 rounded-lg overflow-hidden">
                             <button
