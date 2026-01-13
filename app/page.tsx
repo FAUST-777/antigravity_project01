@@ -9,6 +9,7 @@ import DonateModal from "@/components/DonateModal";
 import AuthButton from "@/components/AuthButton";
 import { AnimatePresence } from "framer-motion";
 import { useLanguage } from "@/contexts/LanguageContext";
+import Link from "next/link";
 
 export default function Home() {
     const { t, language, setLanguage } = useLanguage();
@@ -67,6 +68,11 @@ export default function Home() {
                                 </button>
                             </li>
                             <li>
+                                <Link href="/guide" className="text-gray-400 hover:text-green-400 hover:drop-shadow-[0_0_5px_rgba(74,222,128,0.8)] transition-all">
+                                    {t("nav_guide")}
+                                </Link>
+                            </li>
+                            <li>
                                 <button onClick={() => setShowAbout(true)} className="text-gray-400 hover:text-purple-400 hover:drop-shadow-[0_0_5px_rgba(168,85,247,0.8)] transition-all">
                                     {t("nav_about")}
                                 </button>
@@ -106,6 +112,7 @@ export default function Home() {
                     {/* Mobile Nav Links - Layer 3 */}
                     <div className="md:hidden flex justify-around items-center w-full py-2 border-t border-gray-800 order-3">
                         <button onClick={scrollToTop} className="font-mono text-cyan-400 font-bold tracking-widest text-sm hover:text-cyan-300 shadow-cyan-500/20">{t("nav_home")}</button>
+                        <Link href="/guide" className="font-mono text-green-400 font-bold tracking-widest text-sm hover:text-green-300">{t("nav_guide")}</Link>
                         <button onClick={() => setShowAbout(true)} className="font-mono text-purple-400 font-bold tracking-widest text-sm hover:text-purple-300">{t("nav_about")}</button>
                         <button onClick={() => setShowDonate(true)} className="font-mono text-pink-400 font-bold tracking-widest text-sm hover:text-pink-300">{t("nav_donate")}</button>
                     </div>

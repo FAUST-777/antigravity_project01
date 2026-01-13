@@ -120,5 +120,81 @@ export const translations = {
     donate_payout_btn: {
         en: "PAYPAL LINK (SECURE)",
         zh: "前往 PAYPAL (安全連結)"
+    },
+    nav_guide: {
+        en: "GUIDE",
+        zh: "說明"
+    },
+    guide_title: {
+        en: "HOW IT WORKS",
+        zh: "使用說明"
+    },
+    guide_role_lessor: {
+        en: "Lessor (Pet Owner)",
+        zh: "出租者 (主人)"
+    },
+    guide_role_tenant: {
+        en: "Tenant (Renter)",
+        zh: "租客 (吸貓吸狗)"
+    },
+    step_lessor_1: {
+        en: "Upload Pet Profile",
+        zh: "上傳貓狗資料"
+    },
+    step_lessor_2: {
+        en: "Set Price & Terms",
+        zh: "設定租期與價格"
+    },
+    step_lessor_3: {
+        en: "Wait for Booking",
+        zh: "等待出租任務"
+    },
+    step_tenant_1: {
+        en: "Browse Pets",
+        zh: "在首頁挑選喜歡的貓狗"
+    },
+    step_tenant_2: {
+        en: "Book Session",
+        zh: "預約租賃"
+    },
+    step_tenant_3: {
+        en: "Secure Payment",
+        zh: "金流付款"
+    },
+    payment_safety_title: {
+        en: "PAYMENT PROTECTION",
+        zh: "金流保障"
+    },
+    payment_safety_text: {
+        en: "We use third-party secure payment. Funds are released only after both parties confirm the transaction is complete.",
+        zh: "平台採用第三方金流，雙方都交易完成，才撥款給出租者。保障您的權益。"
+    },
+    qa_title: {
+        en: "FAQ",
+        zh: "常見 Q&A"
+    },
+    qa_1_q: {
+        en: "What if the pet is shy?",
+        zh: "如果寵物很害羞怎麼辦？"
+    },
+    qa_1_a: {
+        en: "Owners usually accompany their pets to ensure comfort.",
+        zh: "主人通常會陪同寵物，確保貓狗在熟悉的狀態下互動。"
+    },
+    qa_2_q: {
+        en: "Can I bring treats?",
+        zh: "我可以帶零食餵牠們嗎？"
+    },
+    qa_2_a: {
+        en: "Please ask the owner first. Some pets have dietary restrictions.",
+        zh: "請務必先詢問主人。有些毛孩有飲食控制或過敏。"
+    },
+    qa_3_q: {
+        en: "Is there an age limit?",
+        zh: "有年齡限制嗎？"
+    },
+    qa_3_a: {
+        en: "You must be 18+ to rent. Children must be accompanied by adults.",
+        zh: "租賃者須滿 18 歲。兒童需由成人全程陪同。"
     }
 };
