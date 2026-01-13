@@ -3,7 +3,9 @@
 import { motion } from "framer-motion";
 import { useLanguage } from "@/contexts/LanguageContext";
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { PetStatsService, PetStats } from "@/services/petStatsService";
+import { MOCK_PETS } from "@/data/mockPets";
 
 interface AboutModalProps {
     onClose: () => void;
@@ -65,13 +67,69 @@ export default function AboutModal({ onClose }: AboutModalProps) {
                             {t("about_text")}
                         </p>
 
-                        <div className="mt-6 pt-6 border-t border-gray-800 flex items-center justify-between text-xs text-gray-500 font-mono">
+                        <div className="mt-6 pt-6 border-t border-gray-800 flex items-center justify-between text-xs text-gray-500 font-mono mb-4">
                             <span>STATUS: OPERATIONAL</span>
                             <span>ID: CREATOR_01</span>
+                        </div>
+
+                        {/* Stats Table */}
+                        <div className="border-t border-gray-800 pt-6">
+                            <h3 className="text-xl font-bold text-cyan-400 mb-4">{t("stats_title")}</h3>
+                            <div className="overflow-x-auto max-h-48 overflow-y-auto custom-scrollbar bg-black/40 rounded border border-gray-700">
+                                <table className="w-full text-left font-mono text-sm">
+                                    <thead className="bg-gray-800 text-gray-400 sticky top-0">
+                                        <tr>
+                                            <th className="p-2">{t("table_pet")}</th>
+                                            <th className="p-2 text-center">{t("table_likes")}</th>
+                                            <th className="p-2 text-center">{t("table_bookings")}</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody className="divide-y divide-gray-800">
+                                        <StatsTableRows />
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
             </motion.div>
         </div>
+    );
+}
+
+function StatsTableRows() {
+    const [stats, setStats] = useState<PetStats[]>([]);
+
+    useEffect(() => {
+        const fetchStats = async () => {
+            const data = await PetStatsService.getAllPetStats();
+            setStats(data);
+        };
+        fetchStats();
+    }, []);
+
+    // Merge mock data (for image/name) with firestore stats
+    const rows = MOCK_PETS.map(pet => {
+        const petStat = stats.find(s => s.id === pet.id);
+        return {
+            ...pet,
+            likes: petStat?.likes || 0,
+            bookings: petStat?.bookings || 0
+        };
+    }).sort((a, b) => b.bookings - a.bookings); // Sort by bookings desc
+
+    return (
+        <>
+            {rows.map(pet => (
+                <tr key={pet.id} className="hover:bg-gray-800/50">
+                    <td className="p-2 flex items-center gap-2">
+                        <img src={pet.image} className="w-8 h-8 rounded object-cover" />
+                        <span className="text-white text-xs truncate max-w-[100px]">{pet.name}</span>
+                    </td>
+                    <td className="p-2 text-center text-pink-400 font-bold">{pet.likes} ❤️</td>
+                    <td className="p-2 text-center text-green-400 font-bold">{pet.bookings} 📅</td>
+                </tr>
+            ))}
+        </>
     );
 }

@@ -228,5 +228,21 @@ export const translations = {
     member_table_rented: {
         en: "RENTED",
         zh: "租過貓狗次數"
+    },
+    stats_title: {
+        en: "PET STATISTICS",
+        zh: "統計"
+    },
+    table_pet: {
+        en: "PET",
+        zh: "貓狗"
+    },
+    table_likes: {
+        en: "LIKES",
+        zh: "愛心數"
+    },
+    table_bookings: {
+        en: "BOOKINGS",
+        zh: "預約次數"
     }
 };

@@ -6,6 +6,8 @@ import { motion } from "framer-motion";
 import { Pet } from "@/data/mockPets";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { BookingService, Booking } from "@/services/bookingService";
+import { useAuth } from "@/contexts/AuthContext";
+import { PetStatsService, PetStats } from "@/services/petStatsService";
 
 interface BookingModalProps {
     pet: Pet;
@@ -14,6 +16,7 @@ interface BookingModalProps {
 
 export default function BookingModal({ pet, onClose }: BookingModalProps) {
     const { t } = useLanguage();
+    const { user, signInWithGoogle } = useAuth();
     const [name, setName] = useState("");
     const [date, setDate] = useState("");
     const [time, setTime] = useState("12");
@@ -21,16 +24,40 @@ export default function BookingModal({ pet, onClose }: BookingModalProps) {
     const [loading, setLoading] = useState(false);
     const [bookings, setBookings] = useState<Booking[]>([]);
 
+    const [stats, setStats] = useState<PetStats | null>(null);
+
     const [mounted, setMounted] = useState(false);
 
     useEffect(() => {
         setMounted(true);
         // Subscribe to real-time bookings for this pet
-        const unsubscribe = BookingService.subscribeToBookings(pet.id, (data) => {
+        const unsubscribeBookings = BookingService.subscribeToBookings(pet.id, (data) => {
             setBookings(data);
         });
-        return () => unsubscribe();
+        // Subscribe to stats (likes)
+        const unsubscribeStats = PetStatsService.subscribeToStats(pet.id, (data) => {
+            setStats(data);
+        });
+
+        return () => {
+            unsubscribeBookings();
+            unsubscribeStats();
+        };
     }, [pet.id]);
+
+    const isLiked = user && stats?.likedBy?.includes(user.uid);
+
+    const handleLike = async () => {
+        if (!user) {
+            signInWithGoogle();
+            return;
+        }
+        try {
+            await PetStatsService.toggleLike(pet.id, user.uid);
+        } catch (error) {
+            console.error("Failed to toggle like", error);
+        }
+    };
 
     const handleSubmit = async () => {
         if (!name || !date) return;
@@ -43,6 +70,9 @@ export default function BookingModal({ pet, onClose }: BookingModalProps) {
                 time: parseInt(time),
                 note
             });
+            // Increment booking stats
+            await PetStatsService.incrementBooking(pet.id);
+
             alert(t("booking_success"));
             onClose();
         } catch (e) {
@@ -77,7 +107,16 @@ export default function BookingModal({ pet, onClose }: BookingModalProps) {
                 <div className="flex-1 space-y-4">
                     <h3 className="text-2xl font-bold text-pink-500 font-mono mb-1">{t("booking_modal_title")}</h3>
                     <div className="flex gap-4 mb-4 items-center">
-                        <img src={pet.image} className="w-16 h-16 object-cover rounded-lg border border-gray-700" />
+                        <div className="relative">
+                            <img src={pet.image} className="w-16 h-16 object-cover rounded-lg border border-gray-700" />
+                            <button
+                                onClick={handleLike}
+                                className="absolute -bottom-2 -right-2 bg-black border border-gray-600 rounded-full px-2 py-0.5 text-xs flex items-center gap-1 hover:border-pink-500 transition-colors"
+                            >
+                                <span className={isLiked ? 'text-pink-500' : 'text-gray-400'}>{isLiked ? '❤️' : '🤍'}</span>
+                                <span className="text-cyan-400 font-bold">{stats?.likes || 0}</span>
+                            </button>
+                        </div>
                         <div>
                             <h4 className="text-xl font-bold text-white">{pet.name}</h4>
                             <p className="text-cyan-400 font-mono">{pet.price} {t("credits_hr")}</p>

@@ -3,6 +3,9 @@
 import { motion } from "framer-motion";
 import { Pet } from "@/data/mockPets";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { useState, useEffect } from "react";
+import { useAuth } from "@/contexts/AuthContext";
+import { PetStatsService, PetStats } from "@/services/petStatsService";
 
 interface Props {
     pet: Pet;
@@ -11,6 +14,30 @@ interface Props {
 
 export default function PetCard({ pet, onRent }: Props) {
     const { t } = useLanguage();
+    const { user, signInWithGoogle } = useAuth();
+    const [stats, setStats] = useState<PetStats | null>(null);
+
+    useEffect(() => {
+        const unsubscribe = PetStatsService.subscribeToStats(pet.id, (data) => {
+            setStats(data);
+        });
+        return () => unsubscribe();
+    }, [pet.id]);
+
+    const isLiked = user && stats?.likedBy?.includes(user.uid);
+
+    const handleLike = async (e: React.MouseEvent) => {
+        e.stopPropagation();
+        if (!user) {
+            signInWithGoogle();
+            return;
+        }
+        try {
+            await PetStatsService.toggleLike(pet.id, user.uid);
+        } catch (error) {
+            console.error("Failed to toggle like", error);
+        }
+    };
 
     return (
         <motion.div
@@ -26,6 +53,16 @@ export default function PetCard({ pet, onRent }: Props) {
                 <img src={pet.image} alt={pet.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
                 <div className="absolute top-2 right-2 z-20 bg-black/60 backdrop-blur px-2 py-1 rounded text-xs font-mono text-cyan-400 border border-cyan-800">
                     {pet.type.toUpperCase()}
+                </div>
+                {/* Heart Button Overlay */}
+                <div className="absolute top-2 left-2 z-30">
+                    <button
+                        onClick={handleLike}
+                        className={`flex items-center gap-1 px-2 py-1 rounded-full backdrop-blur transition-all ${isLiked ? 'bg-pink-500/20 text-pink-500 border border-pink-500' : 'bg-black/50 text-gray-400 hover:text-pink-400 border border-transparent'}`}
+                    >
+                        <span className={`text-lg ${isLiked ? 'animate-pulse' : ''}`}>{isLiked ? '❤️' : '🤍'}</span>
+                        <span className="text-xs font-bold">{stats?.likes || 0}</span>
+                    </button>
                 </div>
             </div>
 
