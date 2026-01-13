@@ -2,7 +2,8 @@
 
 import { createContext, useContext, useEffect, useState } from "react";
 import { User, onAuthStateChanged, signInWithPopup, signOut } from "firebase/auth";
-import { auth, googleProvider } from "@/lib/firebase";
+import { auth, googleProvider, db } from "@/lib/firebase"; // Added db import
+import { doc, setDoc, getDoc, serverTimestamp } from "firebase/firestore";
 
 interface AuthContextType {
     user: User | null;
@@ -21,7 +22,36 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, (user) => {
+        const unsubscribe = onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                // User is signed in, save data to Firestore
+                const userRef = doc(db, "users", user.uid);
+
+                try {
+                    // Check if new user or existing to initialize counts if needed
+                    const userSnap = await getDoc(userRef);
+
+                    const userData: any = {
+                        uid: user.uid,
+                        displayName: user.displayName,
+                        email: user.email,
+                        photoURL: user.photoURL,
+                        lastLogin: serverTimestamp(),
+                    };
+
+                    // Initial default fields for new users
+                    if (!userSnap.exists()) {
+                        userData.createdAt = serverTimestamp();
+                        userData.rentedCount = 0;
+                        userData.rentedOutCount = 0;
+                        userData.badge = "/badges/badge1.png"; // Default badge
+                    }
+
+                    await setDoc(userRef, userData, { merge: true });
+                } catch (error) {
+                    console.error("Error saving user to Firestore:", error);
+                }
+            }
             setUser(user);
             setLoading(false);
         });

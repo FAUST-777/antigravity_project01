@@ -36,9 +36,14 @@ export default function GuidePage() {
                         {t("header_title")}
                     </h1>
                 </Link>
-                <Link href="/" className="font-mono text-cyan-400 hover:text-cyan-300 transition-colors text-sm tracking-widest border border-cyan-900 px-4 py-1 rounded hover:bg-cyan-900/20">
-                    ← {t("nav_home")}
-                </Link>
+                <div className="flex gap-4">
+                    <Link href="/" className="font-mono text-cyan-400 hover:text-cyan-300 transition-colors text-sm tracking-widest border border-cyan-900 px-4 py-1 rounded hover:bg-cyan-900/20">
+                        {t("nav_home")}
+                    </Link>
+                    <Link href="/members" className="font-mono text-yellow-400 hover:text-yellow-300 transition-colors text-sm tracking-widest border border-yellow-900 px-4 py-1 rounded hover:bg-yellow-900/20">
+                        {t("nav_members")}
+                    </Link>
+                </div>
             </header>
 
             <div className="relative z-10 max-w-4xl mx-auto px-4 mt-8">

@@ -73,6 +73,11 @@ export default function Home() {
                                 </Link>
                             </li>
                             <li>
+                                <Link href="/members" className="text-gray-400 hover:text-yellow-400 hover:drop-shadow-[0_0_5px_rgba(250,204,21,0.8)] transition-all">
+                                    {t("nav_members")}
+                                </Link>
+                            </li>
+                            <li>
                                 <button onClick={() => setShowAbout(true)} className="text-gray-400 hover:text-purple-400 hover:drop-shadow-[0_0_5px_rgba(168,85,247,0.8)] transition-all">
                                     {t("nav_about")}
                                 </button>
@@ -113,6 +118,7 @@ export default function Home() {
                     <div className="md:hidden flex justify-around items-center w-full py-2 border-t border-gray-800 order-3">
                         <button onClick={scrollToTop} className="font-mono text-cyan-400 font-bold tracking-widest text-sm hover:text-cyan-300 shadow-cyan-500/20">{t("nav_home")}</button>
                         <Link href="/guide" className="font-mono text-green-400 font-bold tracking-widest text-sm hover:text-green-300">{t("nav_guide")}</Link>
+                        <Link href="/members" className="font-mono text-yellow-400 font-bold tracking-widest text-sm hover:text-yellow-300">{t("nav_members")}</Link>
                         <button onClick={() => setShowAbout(true)} className="font-mono text-purple-400 font-bold tracking-widest text-sm hover:text-purple-300">{t("nav_about")}</button>
                         <button onClick={() => setShowDonate(true)} className="font-mono text-pink-400 font-bold tracking-widest text-sm hover:text-pink-300">{t("nav_donate")}</button>
                     </div>

@@ -196,5 +196,37 @@ export const translations = {
     qa_3_a: {
         en: "You must be 18+ to rent. Children must be accompanied by adults.",
         zh: "租賃者須滿 18 歲。兒童需由成人全程陪同。"
+    },
+    nav_members: {
+        en: "MEMBERS",
+        zh: "會員"
+    },
+    members_title: {
+        en: "MEMBER LIST",
+        zh: "會員列表"
+    },
+    member_table_date: {
+        en: "JOINED",
+        zh: "註冊日期"
+    },
+    member_table_avatar: {
+        en: "AVATAR",
+        zh: "頭像"
+    },
+    member_table_name: {
+        en: "NAME",
+        zh: "名稱"
+    },
+    member_table_badge: {
+        en: "BADGE",
+        zh: "徽章"
+    },
+    member_table_rented_out: {
+        en: "RENTED OUT",
+        zh: "出租貓狗次數"
+    },
+    member_table_rented: {
+        en: "RENTED",
+        zh: "租過貓狗次數"
     }
 };
